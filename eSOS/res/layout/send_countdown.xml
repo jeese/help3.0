@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view.RippleBackground xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    app:rb_color="#30ffffff"
+    app:rb_duration="3000"
+    app:rb_radius="32dp"
+    app:rb_rippleAmount="6"
+    app:rb_scale="6" >
+
+    <Button
+        android:id="@+id/centerPhone"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/phone1" />
+
+    <TextView
+        android:id="@+id/tt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
+        android:lineSpacingMultiplier="1.3"
+        android:text="倒数完毕后将向您的紧急联系人及附近的人发送您的求救信息。"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/centerNum"
+        android:layout_width="70dp"
+        android:layout_height="140dp"
+        android:layout_below="@id/tt"
+        android:layout_centerHorizontal="true"
+        android:background="@null"
+        android:textColor="#ffffff"
+        android:textSize="120sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/cencel_button"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:background="@color/colorAccent"
+        android:text="取消求救"
+        android:textColor="@color/white" />
+
+
+</view.RippleBackground>
