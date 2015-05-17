@@ -118,14 +118,14 @@
             android:id="@+id/TextDialog"
             android:layout_width="210dp"
             android:layout_height="180dp"
-            android:paddingTop="30dp"
-            android:paddingBottom="16dp"
             android:layout_centerInParent="true"
             android:background="@drawable/card_bg"
-             android:gravity="bottom|center_horizontal"
+            android:drawableTop="@drawable/ic_smileface_85dp"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="16dp"
+            android:paddingTop="30dp"
             android:textColor="#333333"
             android:textSize="26sp"
-            android:drawableTop="@drawable/ic_smileface_85dp"
             android:visibility="invisible" />
     </RelativeLayout>
 
@@ -139,8 +139,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="82dp"
+            android:layout_height="88dp"
+            android:background="@color/colorPrimary"
             android:clickable="true"
+            android:gravity="center_vertical"
             android:orientation="horizontal" >
 
             <view.CircleImageView
@@ -148,14 +150,12 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="24dp"
                 android:src="@drawable/contact_48dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginLeft="14dp"
-                android:layout_marginTop="24dp"
                 android:orientation="vertical" >
 
                 <TextView
@@ -163,14 +163,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="王金鑫"
-                    android:textColor="#4c4c4c"
+                    android:textColor="#ffffff"
                     android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15626186016"
-                    android:textColor="#4c4c4c"
+                    android:textColor="#ffffff"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>

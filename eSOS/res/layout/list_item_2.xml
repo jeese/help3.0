@@ -9,15 +9,14 @@
         android:id="@+id/image"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginLeft="20dp"
-        android:src="@drawable/ic_help_24dp" />
+        android:layout_marginLeft="20dp" />
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
-        android:text="帮助和反馈"       
-        android:textColor="#4c4c4c" />
+        android:textSize="16sp"  
+        android:textColor="#333333" />
 
 </LinearLayout>

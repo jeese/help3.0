@@ -10,17 +10,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class DrawerListAdapter extends BaseAdapter {
+public class DrawerListAdapter_1 extends BaseAdapter {
 
 	private Context mContext;
 
-	public DrawerListAdapter(Context context) {
+	public DrawerListAdapter_1(Context context) {
 		mContext = context;
 	}
 
 	@Override
 	public int getCount() {
-		return 2;
+		return 5;
 	}
 
 	@Override
@@ -36,16 +36,32 @@ public class DrawerListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		convertView = LayoutInflater.from(mContext).inflate(
-				R.layout.list_item_2, parent, false);
+				R.layout.list_item_1, parent, false);
 		TextView text = (TextView) convertView.findViewById(R.id.text);
 		ImageView image = (ImageView) convertView.findViewById(R.id.image);
 		
-		if(position == 0){
-			text.setText("设置");
-			image.setImageResource(R.drawable.ic_settings_24dp);
-		}else{
-			text.setText("帮助和反馈");
-			image.setImageResource(R.drawable.ic_help_24dp);
+		switch(position){
+		case 0:
+			text.setText("我的信息");
+			image.setImageResource(R.drawable.ic_account_box_black_24dp);
+			break;
+		case 1:
+			text.setText("紧急求救卡");
+			image.setImageResource(R.drawable.ic_verified_user_black_24dp);
+			break;
+		case 2:
+			text.setText("人脉");
+			image.setImageResource(R.drawable.ic_people_black_24dp);
+			break;
+		case 3:
+			text.setText("爱心银行");
+			image.setImageResource(R.drawable.ic_favorite_black_24dp);
+			break;
+		case 4:
+			text.setText("历史记录");
+			image.setImageResource(R.drawable.ic_recent_black_24dp);
+			break;
+		
 		}
 		
 		return convertView;

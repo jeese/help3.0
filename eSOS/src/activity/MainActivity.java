@@ -3,7 +3,6 @@ package activity;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient.ConnectCallback;
 import io.rong.imlib.RongIMClient.ErrorCode;
-import io.rong.imlib.model.Conversation;
 
 import java.util.ArrayList;
 
@@ -45,7 +44,8 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-import adapter.DrawerListAdapter;
+import adapter.DrawerListAdapter_1;
+import adapter.DrawerListAdapter_2;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -68,18 +68,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import application.App;
-import auth.StartActivity;
 
 public class MainActivity extends ActionBarActivity implements
-		OnItemClickListener, AMapLocationListener, OnClickListener, Watcher,
-		OnMapLoadedListener, OnCameraChangeListener {
+		AMapLocationListener, OnClickListener, Watcher, OnMapLoadedListener,
+		OnCameraChangeListener {
 
 	private DrawerLayout mDrawerLayout;
 	private ListView list_1;
@@ -102,11 +100,11 @@ public class MainActivity extends ActionBarActivity implements
 	private CircleImageView head;
 	private View myMarkerIcon;
 	private TextView mTextDialog;
-	
+
 	private Handler mHander = new Handler();
 	private Runnable mRunnable_1;
 	private Runnable mRunnable_2;
-	private Runnable mRunnable_3;//连接融云服务器
+	private Runnable mRunnable_3;// 连接融云服务器
 
 	private Boolean getNearUser_login = false;
 	private Boolean getNearUser_map = false;
@@ -115,10 +113,10 @@ public class MainActivity extends ActionBarActivity implements
 
 	private int getInboxCount = 0;
 	private Boolean isConnectRongIM = false;
-	
-	 /* 通过Binder，实现Activity与Service通信 */
-    private MyBinder mBinder;
-    private ServiceConnection connection = new ServiceConnection() {
+
+	/* 通过Binder，实现Activity与Service通信 */
+	private MyBinder mBinder;
+	private ServiceConnection connection = new ServiceConnection() {
 
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
@@ -129,11 +127,10 @@ public class MainActivity extends ActionBarActivity implements
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			// TODO Auto-generated method stub
-			
-		}  
 
-    };
+		}
 
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -143,20 +140,19 @@ public class MainActivity extends ActionBarActivity implements
 		// 开启后台服务
 		Intent intent = new Intent(this, CoreService.class);
 		startService(intent);
-		
-		//绑定后台服务
-		Intent bindIntent = new Intent(MainActivity.this, CoreService.class);  
-        bindService(bindIntent, connection, BIND_AUTO_CREATE); 
 
-		//添加观察者
+		// 绑定后台服务
+		Intent bindIntent = new Intent(MainActivity.this, CoreService.class);
+		bindService(bindIntent, connection, BIND_AUTO_CREATE);
+
+		// 添加观察者
 		myApp = ((App) getApplicationContext());
 		myApp.addWatcher(this);
 
-		
-		//连接融云服务器
-		connectRongIM();	
-		
-		//设置通知栏样式
+		// 连接融云服务器
+		connectRongIM();
+
+		// 设置通知栏样式
 		setStyleCustom();
 
 		mapView = (MapView) findViewById(R.id.mapview);
@@ -181,15 +177,54 @@ public class MainActivity extends ActionBarActivity implements
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerlayout);
 
 		list_1 = (ListView) findViewById(R.id.listview_1);
-		str = new String[] { "个人信息", "人脉", "紧急求救卡", "爱心银行", "历史记录"};
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				R.layout.list_item_1, str);
-		list_1.setAdapter(adapter);
-		list_1.setOnItemClickListener(this);
+		list_1.setAdapter(new DrawerListAdapter_1(this));
+		list_1.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				switch (position) {
+				case 0:
+
+					break;
+				case 1:
+
+					break;
+				case 2:
+
+					break;
+				case 3:
+
+					break;
+				case 4:
+
+					break;
+				}
+				mDrawerLayout.closeDrawers();
+
+			}
+		});
 
 		list_2 = (ListView) findViewById(R.id.listview_2);
-		list_2.setAdapter(new DrawerListAdapter(this));
-		list_2.setOnItemClickListener(this);
+		list_2.setAdapter(new DrawerListAdapter_2(this));
+		list_2.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				switch (position) {
+				case 0:
+
+					break;
+				case 1:
+
+					break;
+
+				}
+				mDrawerLayout.closeDrawers();
+				
+			}
+		});
 
 		meButton = (ImageButton) findViewById(R.id.Me_Button);
 		inboxButton = (Button) findViewById(R.id.Inbox_Button);
@@ -213,7 +248,7 @@ public class MainActivity extends ActionBarActivity implements
 			inboxButton.setCompoundDrawablesWithIntrinsicBounds(
 					R.drawable.ic_bell_white_40dp, 0, 0, 0);
 		}
-		
+
 		mTextDialog = (TextView) findViewById(R.id.TextDialog);
 
 		mRunnable_1 = new Runnable() {
@@ -232,24 +267,24 @@ public class MainActivity extends ActionBarActivity implements
 		};
 
 	}
-	
-	private void connectRongIM(){
-		
+
+	private void connectRongIM() {
+
 		mHander.removeCallbacks(mRunnable_3);
-		
+
 		SharedPreferences preferences = getSharedPreferences("eSOS",
 				Context.MODE_PRIVATE);
-		
-		if((preferences.getBoolean("gettoken", false))){
+
+		if ((preferences.getBoolean("gettoken", false))) {
 			String token = preferences.getString("im_token", null);
 			RongIM.connect(token, new ConnectCallback() {
-				
+
 				@Override
 				public void onSuccess(String arg0) {
 					isConnectRongIM = true;
 					System.out.println("连接融云服务器成功");
 				}
-				
+
 				@Override
 				public void onError(ErrorCode arg0) {
 					System.out.println("连接融云服务器失败");
@@ -263,7 +298,7 @@ public class MainActivity extends ActionBarActivity implements
 				}
 			});
 		}
-		
+
 	}
 
 	/**
@@ -311,23 +346,6 @@ public class MainActivity extends ActionBarActivity implements
 		super.onDestroy();
 		mapView.onDestroy();
 		unbindService(connection);
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		switch (position) {
-		case 0:
-
-			break;
-		case 1:
-
-			break;
-		case 2:
-
-			break;
-		}
-		mDrawerLayout.closeDrawers();
 	}
 
 	@Override
@@ -431,22 +449,22 @@ public class MainActivity extends ActionBarActivity implements
 				mTextDialog.setText("暂无推送消息");
 				mHander.post(mRunnable_1);
 				mHander.postDelayed(mRunnable_2, 1000);
-			} else if(getInboxCount == 1) {
+			} else if (getInboxCount == 1) {
 				Intent intentInbox = new Intent(MainActivity.this,
 						RSOSActivity.class);
 				startActivity(intentInbox);
-			}else{
-				 Intent intentInbox = new Intent(MainActivity.this,
-				 ListActivity.class);
-				 startActivity(intentInbox);
+			} else {
+				Intent intentInbox = new Intent(MainActivity.this,
+						ListActivity.class);
+				startActivity(intentInbox);
 			}
 			break;
-			
+
 		case R.id.Message_Button:
-			if(isConnectRongIM){
+			if (isConnectRongIM) {
 				System.out.println("打开私信列表成功");
 				RongIM.getInstance().startConversationList(MainActivity.this);
-			}else{
+			} else {
 				System.out.println("打开私信列表失败");
 				mTextDialog.setText("私信服务无法连接");
 				mHander.post(mRunnable_1);
@@ -464,7 +482,8 @@ public class MainActivity extends ActionBarActivity implements
 			// Intent intentH = new Intent(MainActivity.this,
 			// CountDownActivity.class);
 			// startActivity(intentH);
-			//RongIM.getInstance().startConversation(MainActivity.this, Conversation.ConversationType.PRIVATE, "103", "jeese");
+			// RongIM.getInstance().startConversation(MainActivity.this,
+			// Conversation.ConversationType.PRIVATE, "103", "jeese");
 			break;
 
 		case R.id.A_Button:
@@ -554,7 +573,7 @@ public class MainActivity extends ActionBarActivity implements
 							} else {
 								System.out.println("附近没有用户");
 							}
-							
+
 							setMyMarker();
 
 						} catch (JSONException e) {
@@ -582,10 +601,9 @@ public class MainActivity extends ActionBarActivity implements
 				System.out.println("end----getNearUser()------");
 			}
 
-		}else if(str.contentEquals("获取Token成功")){
+		} else if (str.contentEquals("获取Token成功")) {
 			connectRongIM();
 		}
-		
 
 	}
 
@@ -621,7 +639,7 @@ public class MainActivity extends ActionBarActivity implements
 		}
 
 	}
-	
+
 	/**
 	 * dialog显示动画
 	 */
@@ -640,6 +658,7 @@ public class MainActivity extends ActionBarActivity implements
 		mTextDialog.setVisibility(View.VISIBLE);
 		animatorSet.start();
 	}
+
 	/**
 	 * dialog消失动画
 	 */
@@ -655,13 +674,13 @@ public class MainActivity extends ActionBarActivity implements
 				"ScaleY", 1f, 0f);
 		animatorList.add(scaleYAnimator);
 		animatorSet.playTogether(animatorList);
-		//mTextDialog.setVisibility(View.INVISIBLE);
+		// mTextDialog.setVisibility(View.INVISIBLE);
 		animatorSet.start();
-		
+
 		mHander.removeCallbacks(mRunnable_1);
 		mHander.removeCallbacks(mRunnable_2);
 	}
-	
+
 	/**
 	 * 设置通知栏样式 - 定义通知栏Layout
 	 */
