@@ -2,6 +2,8 @@ package adapter;
 
 import java.util.List;
 
+import model.SosInfo;
+
 import view.CircleImageView;
 
 import com.ehelp.esos.R;
@@ -12,17 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class InboxListAdapter extends BaseAdapter {
 
 	private Context mContext;
-	private List<Integer> list;
+	private List<SosInfo> list;
 	private BitmapUtils bitmapUtils;
 	
 
-	public InboxListAdapter(Context context, List<Integer> list) {
+	public InboxListAdapter(Context context, List<SosInfo> list) {
 		this.mContext = context;
 		this.list = list;
 		bitmapUtils = new BitmapUtils(context);
@@ -60,8 +61,15 @@ public class InboxListAdapter extends BaseAdapter {
 		}
 		
 		bitmapUtils.display(viewHolder.headimage, "http://www.qqzhi.com/uploadpic/2014-11-12/190218795.jpg");
-		viewHolder.nickname.setText("王金鑫");
-		viewHolder.message.setText("安全求救");
+		viewHolder.nickname.setText(list.get(position).nickname);
+		
+		if(list.get(position).soscontent.equals("")||list.get(position).soscontent.equals("null")){
+			viewHolder.message.setText("求救消息");
+		}else{
+			viewHolder.message.setText("求救消息:" + list.get(position).soscontent);
+		}
+		
+
 		
 		return convertView;
 	}

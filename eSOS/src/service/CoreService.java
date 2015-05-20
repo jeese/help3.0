@@ -1,25 +1,42 @@
 package service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient.ConnectCallback;
+import io.rong.imlib.RongIMClient.ErrorCode;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import utils.DateUtil;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
+import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.db.sqlite.Selector;
+import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
+import model.EHelp;
 import model.MyHttpClient;
+import model.SosInfo;
 import monitor.HeadSetHelper;
 import monitor.HeadSetHelper.OnHeadSetListener;
 import myinterface.Watcher;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.os.Binder;
 import android.os.Bundle;
@@ -32,11 +49,16 @@ public class CoreService extends Service implements AMapLocationListener,
 		Watcher {
 
 	private LocationManagerProxy mLocationManagerProxy;
-	private Handler handler = new Handler();
+	private Handler mhandler = new Handler();
+	private Runnable runnable;
+	private Runnable runnable_1;// 初始化消息数据
+	private Runnable mRunnable_3;// 连接融云服务器
 	private App myApp;
+	private String mContent;
 	private String mLat;
 	private String mLng;
 	private String mAddress;// 详细地址
+	private Boolean isConnectRongIM = false;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -53,6 +75,11 @@ public class CoreService extends Service implements AMapLocationListener,
 		public void SendSOS() {
 			sendSOS();
 		}
+
+		public Boolean getIsConnectRongIM() {
+			return isConnectRongIM;
+		}
+
 	}
 
 	@Override
@@ -63,7 +90,10 @@ public class CoreService extends Service implements AMapLocationListener,
 		myApp = ((App) getApplicationContext());
 		// 添加观察者
 		myApp.addWatcher(this);
-		
+
+		// 连接融云服务器
+		connectRongIM();
+
 		init();
 
 	}
@@ -87,9 +117,58 @@ public class CoreService extends Service implements AMapLocationListener,
 		HeadSetHelper.getInstance().open(this);
 		System.out.println("注册线控监听over");
 
+		runnable = new Runnable() {
+
+			@Override
+			public void run() {
+				upLoadLocation();
+				mhandler.postDelayed(this, 1680000);
+
+			}
+		};
+
+		if (myApp.STATE == 1) {
+			upLoadLocation();
+		}
+
+	}
+
+	private void connectRongIM() {
+
+		mhandler.removeCallbacks(mRunnable_3);
+
+		SharedPreferences preferences = getSharedPreferences("eSOS",
+				Context.MODE_PRIVATE);
+
+		if ((preferences.getBoolean("gettoken", false))) {
+			String token = preferences.getString("im_token", null);
+			RongIM.connect(token, new ConnectCallback() {
+
+				@Override
+				public void onSuccess(String arg0) {
+					isConnectRongIM = true;
+					System.out.println("连接融云服务器成功");
+				}
+
+				@Override
+				public void onError(ErrorCode arg0) {
+					System.out.println("连接融云服务器失败");
+					mRunnable_3 = new Runnable() {
+						@Override
+						public void run() {
+							connectRongIM();
+						}
+					};
+					mhandler.postDelayed(mRunnable_3, 10000);
+				}
+			});
+		}
+
 	}
 
 	private void upLoadLocation() {
+
+		mhandler.removeCallbacks(runnable);
 
 		mLocationManagerProxy = LocationManagerProxy.getInstance(this);
 
@@ -99,14 +178,7 @@ public class CoreService extends Service implements AMapLocationListener,
 		mLocationManagerProxy.setGpsEnable(false);
 
 		// 定时上传
-		handler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				upLoadLocation();
-				handler.postDelayed(this, 1680000);
-			}
-		}, 1680000);
+		mhandler.postDelayed(runnable, 1680000);
 
 	}
 
@@ -156,7 +228,15 @@ public class CoreService extends Service implements AMapLocationListener,
 
 			mLat = posx;
 			mLng = posy;
-			mAddress = amapLocation.getAddress();
+			mAddress = "位置：" + amapLocation.getStreet();
+
+			SharedPreferences preferences = getSharedPreferences("eSOS",
+					Context.MODE_PRIVATE);
+			Editor editor = preferences.edit();
+			editor.putString("mLat", mLat);
+			editor.putString("mLng", mLng);
+			editor.putString("mAddress", mAddress);
+			editor.commit();
 
 			RequestParams params = new RequestParams();
 			params.addBodyParameter("posx", posx);
@@ -201,8 +281,20 @@ public class CoreService extends Service implements AMapLocationListener,
 
 	private void sendSOS() {
 
+		SharedPreferences preferences = getSharedPreferences("eSOS",
+				Context.MODE_PRIVATE);
+		Editor editor = preferences.edit();
+		editor.putInt("sos_status", 2);
+		editor.putString("sos_time", DateUtil.getDate());
+		editor.commit();
+
+		mContent = preferences.getString("mContent", null);
+		mLat = preferences.getString("mLat", null);
+		mLng = preferences.getString("mLng", null);
+		mAddress = preferences.getString("mAddress", null);
+
 		RequestParams params = new RequestParams();
-		params.addBodyParameter("text", "");
+		params.addBodyParameter("text", mContent);
 		params.addBodyParameter("locinfo", mAddress);
 		params.addBodyParameter("locx", mLat);
 		params.addBodyParameter("locy", mLng);
@@ -227,6 +319,14 @@ public class CoreService extends Service implements AMapLocationListener,
 
 							if (state.equals("success")) {
 								System.out.println("发送求救成功");
+								SharedPreferences preferences = getSharedPreferences(
+										"eSOS", Context.MODE_PRIVATE);
+								Editor editor = preferences.edit();
+								editor.putInt("sos_status", 3);
+								editor.commit();
+								if (!(mContent == null)) {
+									myApp.sendSosOK();
+								}
 							} else {
 								System.out.println("发送求救失败");
 							}
@@ -248,6 +348,8 @@ public class CoreService extends Service implements AMapLocationListener,
 			// 上传位置
 			upLoadLocation();
 
+		} else if (str.contentEquals("获取Token成功")) {
+			connectRongIM();
 		}
 
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import service.CoreService;
 import service.CoreService.MyBinder;
+import utils.DateUtil;
 import utils.VibratorUtil;
 import view.RippleBackground;
 
@@ -13,8 +14,11 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -31,10 +35,10 @@ public class CountDownActivity extends ActionBarActivity {
 	private int T;
 	Handler countDown;
 	Runnable myRunnable;
-	
-	 /* 通过Binder，实现Activity与Service通信 */
-    private MyBinder mBinder;
-    private ServiceConnection connection = new ServiceConnection() {
+
+	/* 通过Binder，实现Activity与Service通信 */
+	private MyBinder mBinder;
+	private ServiceConnection connection = new ServiceConnection() {
 
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
@@ -45,20 +49,21 @@ public class CountDownActivity extends ActionBarActivity {
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			// TODO Auto-generated method stub
-			
-		}  
 
-    };
+		}
+
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.send_countdown);
-		
-		//绑定后台服务
-		Intent bindIntent = new Intent(CountDownActivity.this, CoreService.class);  
-        bindService(bindIntent, connection, BIND_AUTO_CREATE); 
-		
+
+		// 绑定后台服务
+		Intent bindIntent = new Intent(CountDownActivity.this,
+				CoreService.class);
+		bindService(bindIntent, connection, BIND_AUTO_CREATE);
+
 		init();
 	}
 
@@ -84,9 +89,16 @@ public class CountDownActivity extends ActionBarActivity {
 			public void run() {
 				if (time == 0) {
 					mBinder.SendSOS();
-					 Intent intent = new Intent(CountDownActivity.this,
-							 SSOSActivity.class);
+					SharedPreferences preferences = getSharedPreferences(
+							"eSOS", Context.MODE_PRIVATE);
+					Editor editor = preferences.edit();
+					editor.putInt("sos_status", 2);
+					editor.putString("sos_time", DateUtil.getDate());
+					editor.commit();
+					Intent intent = new Intent(CountDownActivity.this,
+							SSOSActivity.class);
 					startActivity(intent);
+
 					finish();
 				} else if (time == T) {
 					T++;
@@ -113,6 +125,9 @@ public class CountDownActivity extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
+				Intent intent = new Intent(CountDownActivity.this,
+						MainActivity.class);
+				startActivity(intent);
 				finish();
 			}
 		});

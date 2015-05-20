@@ -1,11 +1,16 @@
 package activity;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import model.EHelp;
+import model.SosInfo;
 
 import com.ehelp.esos.R;
 
 import adapter.InboxListAdapter;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,19 +35,18 @@ public class ListActivity extends ActionBarActivity implements
 	}
 
 	private void init() {
+		SharedPreferences preferences = getSharedPreferences("eSOS",
+				Context.MODE_PRIVATE);
+		
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
 		// toolbar.setLogo(R.drawable.ic_launcher);
-		mToolbar.setTitle("求救消息");// 标题的文字需在setSupportActionBar之前，不然会无效
+		mToolbar.setTitle(preferences.getString("nickname", "") + "的推送通知");// 标题的文字需在setSupportActionBar之前，不然会无效
 		// toolbar.setSubtitle("副标题");
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		list_1 = (ListView) findViewById(R.id.listview);
-		List<Integer> list = new ArrayList<Integer>();
-
-		for (int i = 0; i < 20; i++) {
-			list.add(i);
-		}
+		List<SosInfo> list = EHelp.getInstance().getSosInfoList();
 
 		list_1.setAdapter(new InboxListAdapter(this, list));
 		list_1.setOnItemClickListener(this);
@@ -62,7 +66,13 @@ public class ListActivity extends ActionBarActivity implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		// TODO Auto-generated method stub
+		Bundle mbundle = new Bundle();
+		mbundle.putString("id", EHelp.getInstance().getSosInfoList()
+				.get(position).uid);
+		Intent intentInbox = new Intent(ListActivity.this,
+				RSOSActivity.class);
+		intentInbox.putExtras(mbundle);
+		startActivity(intentInbox);
 
 	}
 }

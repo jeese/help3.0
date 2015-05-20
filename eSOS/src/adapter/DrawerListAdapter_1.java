@@ -20,7 +20,7 @@ public class DrawerListAdapter_1 extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return 5;
+		return 4;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class DrawerListAdapter_1 extends BaseAdapter {
 		
 		switch(position){
 		case 0:
-			text.setText("我的信息");
+			text.setText("个人主页");
 			image.setImageResource(R.drawable.ic_account_box_black_24dp);
 			break;
 		case 1:
@@ -50,17 +50,17 @@ public class DrawerListAdapter_1 extends BaseAdapter {
 			image.setImageResource(R.drawable.ic_verified_user_black_24dp);
 			break;
 		case 2:
-			text.setText("人脉");
+			text.setText("我的人脉");
 			image.setImageResource(R.drawable.ic_people_black_24dp);
 			break;
 		case 3:
 			text.setText("爱心银行");
 			image.setImageResource(R.drawable.ic_favorite_black_24dp);
 			break;
-		case 4:
-			text.setText("历史记录");
-			image.setImageResource(R.drawable.ic_recent_black_24dp);
-			break;
+//		case 4:
+//			text.setText("历史记录");
+//			image.setImageResource(R.drawable.ic_recent_black_24dp);
+//			break;
 		
 		}
 		

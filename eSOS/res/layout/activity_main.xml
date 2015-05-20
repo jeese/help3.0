@@ -45,8 +45,6 @@
                 android:background="@drawable/inbox_bg_black"
                 android:drawableLeft="@drawable/ic_bell_40dp"
                 android:gravity="left|center_vertical"
-                android:text="暂无推送通知"
-                android:textColor="#999999"
                 android:textSize="24sp" />
 
             <ImageButton
@@ -145,12 +143,19 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
-            <view.CircleImageView
-                android:id="@+id/head"
+            <FrameLayout
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/contact_48dp" />
+                android:background="@drawable/circle_white" >
+
+                <view.CircleImageView
+                    android:id="@+id/head"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginTop="1dp"/>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,17 +164,17 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="王金鑫"
                     android:textColor="#ffffff"
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="15626186016"
                     android:textColor="#ffffff"
                     android:textSize="14sp" />
             </LinearLayout>

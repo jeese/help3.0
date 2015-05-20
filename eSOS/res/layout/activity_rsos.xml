@@ -2,32 +2,155 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e9ecf1"
     android:orientation="vertical" >
 
     <include layout="@layout/toolbar" />
 
-    <com.amap.api.maps.MapView
-        android:id="@+id/mapview"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
-    </com.amap.api.maps.MapView>
+        android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#ffffff"
-        android:orientation="vertical" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/MessageButton"
-            android:layout_width="140dp"
-            android:layout_height="100dp"
-            android:background="@drawable/redbutton_bg"
-            android:text="发送私信"
-            android:textColor="@color/red"
-            android:textSize="28sp" />
-    </LinearLayout>
+            <com.amap.api.maps.MapView
+                android:id="@+id/mapview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" >
+            </com.amap.api.maps.MapView>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <FrameLayout
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginLeft="20dp"
+                            android:background="@drawable/circle_white" >
+
+                            <view.CircleImageView
+                                android:id="@+id/head"
+                                android:layout_width="46dp"
+                                android:layout_height="46dp"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginTop="1dp" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_marginLeft="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical" >
+
+                            <TextView
+                                android:id="@+id/nickname"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:textColor="#333333"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#333333"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="top"
+                        android:orientation="horizontal" >
+
+                        <view.materialedittext.MaterialEditText
+                            xmlns:app="http://schemas.android.com/apk/res/com.ehelp.esos"
+                            android:id="@+id/soscontent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:editable="false"
+                            android:textSize="22sp"
+                            app:baseColor="@color/black"
+                            app:floatingLabel="highlight"
+                            app:floatingLabelText="求救状态"
+                            app:floatingLabelTextSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/MessageButton"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_bg_green"
+                    android:text="发送私信"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/PhoneButton"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_bg_white"
+                    android:text="拨打电话"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/TextDialog"
+            android:layout_width="210dp"
+            android:layout_height="180dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/card_bg"
+            android:drawableTop="@drawable/ic_smileface_85dp"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="16dp"
+            android:paddingTop="30dp"
+            android:textColor="#333333"
+            android:textSize="26sp"
+            android:visibility="invisible" />
+    </RelativeLayout>
 
 </LinearLayout>
