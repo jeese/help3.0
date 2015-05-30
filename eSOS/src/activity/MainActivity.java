@@ -7,7 +7,6 @@ import java.util.List;
 
 import model.EHelp;
 import model.MyHttpClient;
-import model.SosInfo;
 import myinterface.Watcher;
 
 import org.json.JSONException;
@@ -17,6 +16,7 @@ import service.CoreService;
 import service.CoreService.MyBinder;
 import view.CircleImageView;
 
+import bean.SosInfo;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 

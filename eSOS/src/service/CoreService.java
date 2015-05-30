@@ -12,6 +12,8 @@ import org.json.JSONObject;
 
 import utils.DateUtil;
 
+import bean.SosInfo;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
@@ -28,7 +30,6 @@ import com.lidroid.xutils.http.client.HttpRequest;
 
 import model.EHelp;
 import model.MyHttpClient;
-import model.SosInfo;
 import monitor.HeadSetHelper;
 import monitor.HeadSetHelper.OnHeadSetListener;
 import myinterface.Watcher;

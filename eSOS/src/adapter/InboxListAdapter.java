@@ -2,9 +2,10 @@ package adapter;
 
 import java.util.List;
 
-import model.SosInfo;
 
 import view.CircleImageView;
+
+import bean.SosInfo;
 
 import com.ehelp.esos.R;
 import com.lidroid.xutils.BitmapUtils;

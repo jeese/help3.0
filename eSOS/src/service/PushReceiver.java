@@ -4,12 +4,13 @@ import java.util.List;
 
 import model.EHelp;
 import model.MyHttpClient;
-import model.SosInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import utils.DateUtil;
+
+import bean.SosInfo;
 
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.HttpUtils;

@@ -58,7 +58,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="108dp"
+            android:layout_height="96dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/bottomtab_bg"
             android:gravity="center_vertical"
@@ -71,12 +71,12 @@
 
             <Button
                 android:id="@+id/S_Button"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:background="@drawable/redbutton_bg"
                 android:text="求救"
-                android:textColor="@color/red"
-                android:textSize="28sp" />
+                android:textColor="@color/white"
+                android:textSize="24sp" />
 
             <View
                 android:layout_width="0dp"
@@ -85,12 +85,12 @@
 
             <Button
                 android:id="@+id/H_Button"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:background="@drawable/yellowbutton_bg"
                 android:text="求助"
-                android:textColor="@color/yellow"
-                android:textSize="28sp" />
+                android:textColor="@color/white"
+                android:textSize="24sp" />
 
             <View
                 android:layout_width="0dp"
@@ -99,12 +99,12 @@
 
             <Button
                 android:id="@+id/A_Button"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:background="@drawable/bluebutton_bg"
                 android:text="提问"
-                android:textColor="@color/blue"
-                android:textSize="28sp" />
+                android:textColor="@color/white"
+                android:textSize="24sp" />
 
             <View
                 android:layout_width="0dp"

@@ -3,7 +3,8 @@ package activity;
 import java.util.List;
 
 import model.EHelp;
-import model.SosInfo;
+
+import bean.SosInfo;
 
 import com.ehelp.esos.R;
 

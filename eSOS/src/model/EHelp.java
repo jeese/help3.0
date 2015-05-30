@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import bean.SosInfo;
+
 public class EHelp {
 	
 	private static final EHelp ehelp = new EHelp();

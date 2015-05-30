@@ -3,12 +3,13 @@ package activity;
 import java.util.List;
 
 import model.EHelp;
-import model.SosInfo;
 import utils.DateUtil;
 import view.CircleImageView;
 import view.materialedittext.MaterialEditText;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
+
+import bean.SosInfo;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapOptions;
@@ -127,7 +128,7 @@ public class RSOSActivity extends ActionBarActivity implements OnClickListener {
 		
 		System.out.println("soscontent=========" + soscontent);
 
-		if(soscontent.equals("")||soscontent.equals("null")){
+		if(soscontent.equals(null)||soscontent.equals("")||soscontent.equals("null")){
 			sostext.setText("Çó¾È×´Ì¬ÔÝÎÞ");
 		}else{
 			sostext.setText(soscontent);

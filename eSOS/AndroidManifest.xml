@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ehelp.esos"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="0.0.1" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -254,7 +254,8 @@
                 <category android:name="com.ehelp.esos" />
             </intent-filter>
         </receiver>
-  m
+  m
+
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
@@ -279,7 +280,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="io.rong.imkit"
+                    android:host="com.ehelp.esos"
                     android:pathPrefix="/VoIPCall"
                     android:scheme="rong" />
             </intent-filter>
@@ -294,7 +295,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="io.rong.imkit"
+                    android:host="com.ehelp.esos"
                     android:pathPrefix="/VoIPAccept"
                     android:scheme="rong" />
             </intent-filter>
